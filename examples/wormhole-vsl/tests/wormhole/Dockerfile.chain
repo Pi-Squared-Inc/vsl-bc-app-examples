@@ -1,0 +1,6 @@
+FROM ghcr.io/foundry-rs/foundry
+
+ARG CHAIN_ID_ARG=1
+ENV CHAIN_ID=$CHAIN_ID_ARG
+
+ENTRYPOINT anvil -a 1 -b 1 --host 0.0.0.0 --code-size-limit 1024000 --chain-id $CHAIN_ID

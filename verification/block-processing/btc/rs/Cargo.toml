@@ -1,0 +1,12 @@
+[package]
+name = "verification-block-processing-btc"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+bitcoin = "0.32.5"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0.140"
+thiserror = "2.0.12"
+tokio = { version = "1", features = ["full"] }
+generation-block-processing-btc = { path = "../../../../generation/block-processing/btc/rs" }

@@ -1,0 +1,137 @@
+services:
+  backend:
+    restart: always
+    build:
+      context: ./backend
+      additional_contexts:
+        - root=../../
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
+    expose:
+      - 3001
+    ports:
+      - 3001:3001
+    volumes:
+      - ./backend/data:/opt/app/data
+
+  frontend:
+    restart: always
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend
+
+  geth-claim-submitter:
+    restart: always
+    build:
+      context: ./mirroring-geth/claim-submitter
+      additional_contexts:
+        - root=../../
+      dockerfile: Dockerfile
+    env_file:
+      - ./mirroring-geth/claim-submitter/.env
+    depends_on:
+      - backend
+
+  geth-claim-verifier:
+    restart: always
+    build:
+      context: ./mirroring-geth/claim-verifier
+      dockerfile: Dockerfile
+      additional_contexts:
+        root: ../../
+    env_file:
+      - ./mirroring-geth/claim-verifier/.env
+    depends_on:
+      - backend
+
+  reth-claim-verifier:
+    restart: always
+    build:
+      context: ./mirroring-reth/claim-verifier
+      dockerfile: Dockerfile
+      additional_contexts:
+        root: ../../
+      args:
+        - GITHUB_ACTOR=${GITHUB_ACTOR}
+        - GITHUB_TOKEN=${GITHUB_TOKEN}
+    env_file:
+      - ./mirroring-reth/claim-verifier/.env
+    depends_on:
+      - backend
+
+  reth-claim-submitter:
+    restart: always
+    build:
+      context: ./mirroring-reth/claim-submitter
+      dockerfile: Dockerfile
+      additional_contexts:
+        root: ../../
+      args:
+        - GITHUB_ACTOR=${GITHUB_ACTOR}
+        - GITHUB_TOKEN=${GITHUB_TOKEN}
+    env_file:
+      - ./mirroring-reth/claim-submitter/.env
+    depends_on:
+      - backend
+      - reth-claim-verifier
+
+  btc-claim-verifier:
+    build:
+      context: ./btc-mirroring/claim-verifier
+      dockerfile: Dockerfile
+      additional_contexts:
+        root: ../../
+    env_file:
+      - ./btc-mirroring/claim-verifier/.env
+    depends_on:
+      - backend
+
+  btc-claim-submitter:
+    build:
+      context: ./btc-mirroring/claim-submitter
+      dockerfile: Dockerfile
+      additional_contexts:
+        root: ../../
+    env_file:
+      - ./btc-mirroring/claim-submitter/.env
+    depends_on:
+      - backend
+      - btc-claim-verifier
+
+  reth-kevm-claim-verifier:
+    restart: always
+    build:
+      context: ./mirroring-reth-kevm/claim-verifier
+      dockerfile: Dockerfile
+      additional_contexts:
+        root: ../../
+      args:
+        - GITHUB_ACTOR=${GITHUB_ACTOR}
+        - GITHUB_TOKEN=${GITHUB_TOKEN}
+    env_file:
+      - ./mirroring-reth-kevm/claim-verifier/.env
+    depends_on:
+      - backend
+
+  reth-kevm-claim-submitter:
+    restart: always
+    build:
+      context: ./mirroring-reth-kevm/claim-submitter
+      dockerfile: Dockerfile
+      additional_contexts:
+        root: ../../
+      args:
+        - GITHUB_ACTOR=${GITHUB_ACTOR}
+        - GITHUB_TOKEN=${GITHUB_TOKEN}
+    env_file:
+      - ./mirroring-reth-kevm/claim-submitter/.env
+    depends_on:
+      - backend
+      - reth-kevm-claim-verifier

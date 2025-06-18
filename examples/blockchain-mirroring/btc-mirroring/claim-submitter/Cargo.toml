@@ -1,0 +1,27 @@
+[package]
+name = "claim-submitter-btc"
+version = "0.1.0"
+edition = "2024"
+
+
+[features]
+integration-tests = []
+
+[dependencies]
+dotenvy = "0.15.7"
+bitcoin = "0.32.5"
+jsonrpsee = { version = "0.24.9", features = ["http-client", "server", "macros"] }
+reqwest = { version = "0.12.15", features = ["json"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0.140"
+thiserror = "2.0.12"
+tokio = { version = "1.44.2", features = ["full"] }
+tokio-tungstenite = "0.17"
+log = "0.4.27"
+env_logger = "0.11.8"
+web3 = "0.19.0"
+alloy = "0.15.10"
+
+base = { version ="0.1.0", path= "../../../../base/rs"}
+generation-block-processing-btc = { path = "../../../../generation/block-processing/btc/rs", version = "0.1.0" }
+verification-block-processing-btc = { path = "../../../../verification/block-processing/btc/rs", version = "0.1.0" }

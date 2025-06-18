@@ -1,0 +1,76 @@
+networks:
+  vsl:
+    driver: bridge
+
+services:
+  wormhole-observer:
+    image: vsl/observer:latest
+    hostname: wormhole-observer
+    container_name: wormhole-observer
+    restart: always
+    env_file:
+      - ./observer/.env
+    build:
+      context: ./observer
+      additional_contexts:
+          - root=../../
+    ports:
+      - 10001:10001
+    networks:
+      - vsl
+
+  wormhole-verifier:
+    image: vsl/verifier:latest
+    hostname: wormhole-verifier
+    container_name: wormhole-verifier
+    restart: always
+    env_file:
+      - ./verifier/.env
+    build:
+      context: ./verifier
+      additional_contexts:
+        - root=../../
+    networks:
+      - vsl
+
+  wormhole-relayer:
+    image: vsl/relayer:latest
+    hostname: wormhole-relayer
+    container_name: wormhole-relayer
+    restart: always
+    env_file:
+      - ./relayer/.env
+    build:
+      context: ./relayer
+      additional_contexts:
+        - root=../../
+    networks:
+      - vsl
+
+  wormhole-backend:
+    image: vsl/wormhole-backend:latest
+    hostname: wormhole-backend
+    container_name: wormhole-backend
+    restart: always
+    env_file:
+      - ./backend/.env
+    build:
+      context: ./backend
+    ports:
+      - 3001:3001
+    volumes:
+      - ./backend/data:/opt/app/data
+    networks:
+      - vsl
+
+  wormhole-web:
+    image: vsl/wormhole-web:latest
+    hostname: wormhole-web
+    container_name: wormhole-web
+    restart: always
+    build:
+      context: ./web
+    networks:
+      - vsl
+    ports:
+      - 3000:3000
