@@ -1,0 +1,72 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      additional_contexts:
+        - root=../../
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
+    expose:
+      - 3001
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend/data:/opt/app/data
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    expose:
+      - 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  btc-claim-verifier:
+    build:
+      context: ./btc/claim-verifier
+      dockerfile: Dockerfile
+      additional_contexts:
+        root: ../../
+    env_file:
+      - ./btc/claim-verifier/.env
+    depends_on:
+      - backend
+
+  btc-claim-submitter:
+    build:
+      context: ./btc/claim-submitter
+      dockerfile: Dockerfile
+      additional_contexts:
+        root: ../../
+    env_file:
+      - ./btc/claim-submitter/.env
+    depends_on:
+      - btc-claim-verifier
+      - backend
+
+  eth-claim-verifier:
+    build:
+      context: ./eth/claim-verifier
+      dockerfile: Dockerfile
+      additional_contexts:
+        root: ../../
+    env_file:
+      - ./eth/claim-verifier/.env
+    depends_on:
+      - backend
+
+  eth-claim-submitter:
+    build:
+      context: ./eth/claim-submitter
+      dockerfile: Dockerfile
+      additional_contexts:
+        root: ../../
+    env_file:
+      - ./eth/claim-submitter/.env
+    depends_on:
+      - eth-claim-verifier
+      - backend

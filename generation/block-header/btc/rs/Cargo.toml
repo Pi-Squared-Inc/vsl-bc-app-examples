@@ -1,0 +1,20 @@
+[package]
+name = "generation-block-header-btc"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+bitcoin = { version="0.32.6", features = ["serde"] }
+alloy = "0.15.10" 
+base = {version= "0.1.0", path ="../../../../base/rs"}
+block-header-common = {version= "0.1.0",path= "../../common/rs"}
+thiserror = { version = "2.0.0", default-features = false }
+serde_json = "1.0.140"
+sha2= "0.10.9"
+base64 = "0.13"
+hex = "0.4.3"
+reqwest = { version = "0.11", features = ["json"] }
+tokio = { version = "1.0", features = ["full"] }
+serde =  { version = "1.0", features = ["derive"] }
+
+

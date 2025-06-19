@@ -1,0 +1,24 @@
+[package]
+name = "base"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+bitcoin = { version = "0.32.5", features = ["serde"] }
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.140"
+thiserror = { version = "2.0.0", default-features = false }
+hex= "0.4.3"
+secp256k1 = "0.31.0"
+sha2 = "0.10.9"
+tokio = { version = "1", features = ["full"] }
+reqwest = { version = "0.12.15", features = ["json"] }
+alloy = "0.15.10"
+alloy-rlp = "0.3.11"
+schemars = "0.8.22"
+jsonrpsee = { version = "0.24.9", features = ["ws-client", "http-client", "server", "macros"] }
+# This is only used indirectly through alloy,
+# but we need to list the dependency to enable the pem feature
+# (which provides a ToString implementation for PublicKey)
+k256 = { version = "0.13", features = ["pem"] }
+clap = { version = "4.5.39", features = ["derive"] }

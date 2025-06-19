@@ -1,0 +1,143 @@
+networks:
+  vsl-network:
+    external: true
+    name: vsl-network
+
+services:
+  backend:
+    build:
+      context: ../backend
+      additional_contexts:
+        - root=../../../
+      dockerfile: Dockerfile
+    environment:
+      - PORT=3001
+    networks:
+      - vsl-network
+
+  mock-rpc:
+    build:
+      context: ./mock-rpc
+      additional_contexts:
+        - root=../../../
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    networks:
+      - vsl-network
+
+  mirroring-geth-claim-submitter:
+    build:
+      context: ../mirroring-geth/claim-submitter
+      additional_contexts:
+        root: ../../../
+      dockerfile: Dockerfile
+    env_file:
+      - ../mirroring-geth/claim-submitter/integration_test.env
+    environment:
+      - BACKEND_ENDPOINT=http://backend:3001
+      - VSL_RPC=http://vsl-core:44444
+      - SOURCE_RPC_ENDPOINT=http://mock-rpc:8545
+      - SOURCE_WEBSOCKET_ENDPOINT=ws://mock-rpc:8546
+    depends_on:
+      - backend
+      - mock-rpc
+    networks:
+      - vsl-network
+
+  mirroring-geth-claim-verifier:
+    build:
+      context: ../mirroring-geth/claim-verifier
+      additional_contexts:
+        root: ../../../
+      dockerfile: Dockerfile
+    env_file:
+      - ../mirroring-geth/claim-verifier/integration_test.env
+    environment:
+      - BACKEND_ENDPOINT=http://backend:3001
+      - VSL_RPC=http://vsl-core:44444
+    depends_on:
+      - backend
+      - mock-rpc
+    networks:
+      - vsl-network
+
+  mirroring-reth-claim-submitter:
+    build:
+      context: ../mirroring-reth/claim-submitter
+      dockerfile: Dockerfile
+      additional_contexts:
+        root: ../../../
+      args:
+        - GITHUB_ACTOR=${GITHUB_ACTOR}
+        - GITHUB_TOKEN=${GITHUB_TOKEN}
+    env_file:
+      - ../mirroring-reth/claim-submitter/integration_test.env
+    depends_on:
+      - backend
+      - mock-rpc
+      - mirroring-reth-claim-verifier
+    networks:
+      - vsl-network
+  
+  mirroring-btc-claim-verifier:
+    build:
+      context: ../btc-mirroring/claim-verifier
+      dockerfile: Dockerfile
+      additional_contexts:
+        root: ../../../
+    env_file:
+      - ../btc-mirroring/claim-verifier/integration_test.env
+    depends_on:
+      - backend
+      - mock-rpc
+    networks:
+      - vsl-network
+
+  mirroring-btc-claim-submitter:
+    build:
+      context: ../btc-mirroring/claim-submitter
+      dockerfile: Dockerfile
+      additional_contexts:
+        root: ../../../
+    env_file:
+      - ../btc-mirroring/claim-submitter/integration_test.env
+    depends_on:
+      - backend
+      - mock-rpc
+      - mirroring-btc-claim-verifier
+    networks:
+      - vsl-network
+
+  mirroring-reth-claim-verifier:
+    build:
+      context: ../mirroring-reth/claim-verifier
+      dockerfile: Dockerfile
+      additional_contexts:
+        root: ../../../
+      args:
+        - GITHUB_ACTOR=${GITHUB_ACTOR}
+        - GITHUB_TOKEN=${GITHUB_TOKEN}
+    env_file:
+      - ../mirroring-reth/claim-verifier/integration_test.env
+    depends_on:
+      - backend
+      - mock-rpc
+    networks:
+      - vsl-network
+
+  tester:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+      - mock-rpc
+      - mirroring-geth-claim-submitter
+      - mirroring-geth-claim-verifier
+      - mirroring-reth-claim-verifier
+      - mirroring-reth-claim-submitter
+      - mirroring-btc-claim-verifier
+      - mirroring-btc-claim-submitter
+    networks:
+      - vsl-network

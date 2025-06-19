@@ -1,0 +1,21 @@
+[package]
+name = "verification-block-processing-evm"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+alloy-consensus = "0.15.10"
+
+reth-stateless = { git = "https://github.com/Pi-Squared-Inc/reth-pi2", rev = "a981225c9097e71d5674da7a18a25ee742d1cb0a" }
+reth-primitives = { git = "https://github.com/Pi-Squared-Inc/reth-pi2", rev = "a981225c9097e71d5674da7a18a25ee742d1cb0a" }
+reth-primitives-traits = { git = "https://github.com/Pi-Squared-Inc/reth-pi2", rev = "a981225c9097e71d5674da7a18a25ee742d1cb0a" }
+reth-chainspec = { git = "https://github.com/Pi-Squared-Inc/reth-pi2", rev = "a981225c9097e71d5674da7a18a25ee742d1cb0a" }
+
+alloy-rlp = "0.3.11"
+thiserror = { version = "2.0.0", default-features = false }
+alloy-genesis = "0.15.10"
+
+generation-block-processing-evm = { path = "../../../../generation/block-processing/evm/rs", version = "0.1.0" }
+
+[dev-dependencies]
+serde_json = "1.0.140"
