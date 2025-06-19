@@ -1,9 +1,0 @@
-
-/target
-**/*.rs.bk
-Cargo.lock
-/.idea/
-.vscode
-
-
-block_header_test_mock*
