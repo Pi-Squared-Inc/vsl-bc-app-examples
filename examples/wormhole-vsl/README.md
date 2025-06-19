@@ -44,6 +44,8 @@ In order to run the wormhole demo, it is first necessary to deploy the correspon
 
 3. Go to [Etherscan](https://etherscan.io/myapikey) to create API key for Ethereum Sepolia chain, and go to [Arbiscan](https://arbiscan.io/myapikey) to create API key for Arbitrum Sepolia chain.
 
+4. Run a local VSL node or connect to a remote one. For local deployment you can find instructions in the [`VSL-CLI`](https://github.com/Pi-Squared-Inc/vsl-cli) and [`VSL-SDK`](https://github.com/Pi-Squared-Inc/vsl-sdk) repos.
+
 ### Initialization
 
 1. Ensure in [examples/wormhole](./) folder, execute the following commands to update dependencies and copy templates with environment variables:
@@ -64,7 +66,6 @@ In order to run the wormhole demo, it is first necessary to deploy the correspon
    DEST_RPC_URL <= Destination chain RPC URL
    DEST_ETHERSCAN_API_KEY <= Destination chain explorer API key
    DEST_PRIVATE_KEY <= Your account private key, starts With 0x, can same with SRC_PRIVATE_KEY
-   POD_REGISTRY_ADDRESS <= POD Registry address, uncomment it
    ```
 
 3. Deploy the PeerToken, Vsl, NttManager, and Transceiver contracts on the source chain
@@ -88,32 +89,10 @@ In order to run the wormhole demo, it is first necessary to deploy the correspon
    Fill these four addresses into the [./.env](./.env)
 
    ```log
-   Token address => SRC_TOKEN_ADDRESS
-   VSL address => SRC_VSL_ADDRESS
-   NttManager address => SRC_MANAGER_ADDRESS
-   Transceiver address => SRC_TRANSCEIVER_ADDRESS
-   ```
-
-   Fill [./observer/.env](./observer/.env)
-
-   ```log
-   VSL address => SOURCE_VSL_CONTRACT_ADDRESS
-   Your source chain RPC URL => SOURCE_RPC_ENDPOINT
-   Your source chain websocket URL => SOURCE_WEBSOCKET_ENDPOINT
-   ```
-
-   Fill [./web/.env](./web/.env) file
-
-   ```log
-   Source chain ID => NEXT_PUBLIC_SOURCE_CHAIN_ID
-   Destination chain ID => NEXT_PUBLIC_DEST_CHAIN_ID
-   Token address => NEXT_PUBLIC_SOURCE_TOKEN_ADDRESS
-   VSL address => NEXT_PUBLIC_SOURCE_VSL_ADDRESS
-   NttManager address => NEXT_PUBLIC_SOURCE_MANAGER_ADDRESS
-   Your source chain RPC URL => NEXT_PUBLIC_SOURCE_API
-   Your source chain websocket URL => NEXT_PUBLIC_SOURCE_WS_URL
-   Your dest chain RPC URL => NEXT_PUBLIC_DEST_API
-   Your dest chain websocket URL => NEXT_PUBLIC_DEST_WS_URL
+   Source token address => SRC_TOKEN_ADDRESS
+   Source VSL contract address => SRC_VSL_ADDRESS
+   Source NttManager contract address => SRC_MANAGER_ADDRESS
+   Source Transceiver contract address => SRC_TRANSCEIVER_ADDRESS
    ```
 
 4. Deploy the PeerToken, Vsl, NttManager, and Transceiver contracts on the destination chain
@@ -131,10 +110,7 @@ In order to run the wormhole demo, it is first necessary to deploy the correspon
    Transceiver address => DEST_TRANSCEIVER_ADDRESS
    ```
    
-   Fill [./relayer/.env](./relayer/.env)
-
-   > **Note:**
-   > Based on the destination chain you deployed on, please use the RPC from [public node](https://publicnode.com/) for the `DEST_RPC`. Tenderly's RPC does not support custom errors.
+5. Fill [./relayer/.env](./relayer/.env)
 
    ```log
    Destination chain private key => DEST_PK
@@ -142,20 +118,61 @@ In order to run the wormhole demo, it is first necessary to deploy the correspon
    Destination chain VSL address => DEST_VSL_ADDRESS
    ```
 
+   Fill [./observer/.env](./observer/.env)
+
+   ```log
+   Source VSL contract address => SOURCE_VSL_CONTRACT_ADDRESS
+   Source chain RPC URL => SOURCE_RPC_ENDPOINT
+   Source chain websocket URL => SOURCE_WEBSOCKET_ENDPOINT
+   VSL node RPC endpoint => VSL_RPC
+   VSL observer account address => VSL_CLIENT_ADDRESS
+   VSL observer account private key => VSL_CLIENT_PRIVATE_KEY
+   VSL verifier account address => VSL_VERIFIER_ADDRESS
+   VSL verifier account private key => VSL_VERIFIER_PRIVATE_KEY
+   ```
+
+   Fill [./verifier/.env](./verifier/.env)
+
+   ```log
+   VSL node RPC endpoint => VSL_RPC
+   VSL verifier account address => VSL_VERIFIER_ADDRESS
+   VSL verifier account private key => VSL_VERIFIER_PRIVATE_KEY
+   ```
+
+   Fill [./relayer/.env](./relayer/.env)
+
+   ```log
+   Destination chain private key => DEST_PK
+   Destination chain RPC URL => DEST_RPC
+   Destination chain VSL contract address => DEST_VSL_ADDRESS
+   VSL node RPC endpoint => VSL_RPC
+   VSL observer account address => VSL_OBSERVER_ADDRESS
+   ```
+
    Fill [./web/.env](./web/.env) file with new addresses:
 
    ```log
-   Token address => NEXT_PUBLIC_DEST_TOKEN_ADDRESS
-   VSL address => NEXT_PUBLIC_DEST_VSL_ADDRESS
+   Source chain ID => NEXT_PUBLIC_SOURCE_CHAIN_ID
+   Destination chain ID => NEXT_PUBLIC_DEST_CHAIN_ID
+   Source token contract address => NEXT_PUBLIC_SOURCE_TOKEN_ADDRESS
+   Source VSL contract address => NEXT_PUBLIC_SOURCE_VSL_ADDRESS
+   Source NttManager contract address => NEXT_PUBLIC_SOURCE_MANAGER_ADDRESS
+   Destination token contract address => NEXT_PUBLIC_DEST_TOKEN_ADDRESS
+   Destination VSL contract address => NEXT_PUBLIC_DEST_VSL_ADDRESS
+   Source chain RPC URL => NEXT_PUBLIC_SOURCE_API
+   Source chain websocket URL => NEXT_PUBLIC_SOURCE_WS_URL
+   Destination chain RPC URL => NEXT_PUBLIC_DEST_API
+   Destination chain websocket URL => NEXT_PUBLIC_DEST_WS_URL
+   VSL explorer URL => NEXT_PUBLIC_VSL_EXPLORER_URL
    ```
 
-5. Setup the Token, NttManager and Transceiver contracts on the source chain
+6. Setup the Token, NttManager and Transceiver contracts on the source chain
 
    ```bash
    make setup-source-chain
    ```
 
-6. Setup the Token, NttManager and Transceiver contracts on the destination chain
+7. Setup the Token, NttManager and Transceiver contracts on the destination chain
 
    ```bash
    make setup-dest-chain

@@ -34,7 +34,7 @@ You can using following command to call the `/generate_claim` API:
 
 ```bash
 curl --request POST \
-  --url http://localhost:5001/generate_claim \
+  --url http://localhost:10001/generate_claim \
   --header 'Content-Type: application/json' \
   --data '{
 	"transaction_hash": "0x..."

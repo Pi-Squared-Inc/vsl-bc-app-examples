@@ -5,7 +5,7 @@ networks:
 
 services:
   vsl-core:
-    image: ghcr.io/pi-squared-inc/vsl/vsl-core:58b0c
+    image: ghcr.io/pi-squared-inc/vsl/vsl-core:vsl-devnet
     ports:
       - "44444:44444"
     networks:

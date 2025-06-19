@@ -16,7 +16,7 @@ FROM debian:bullseye-slim
 WORKDIR /app
 
 COPY --from=builder /opt/app/examples/wormhole/relayer/target/release/relayer ./relayer
-COPY ./sample.env ./.env
+COPY ./integration_test.env ./.env
 
 RUN apt update
 RUN apt install -y ca-certificates

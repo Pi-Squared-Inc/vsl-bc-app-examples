@@ -16,7 +16,7 @@ import EthereumMirroringRecordRow from "./EthereumMirroringRecordRow";
 import { ValidationRecordsTableHeaderCell } from "./ValidationRecordsTableHeaderCell";
 
 const SKELETON_ROWS = 25;
-const Cols = 7;
+const Cols = 5;
 
 function useDialog() {
   const [isOpen, setIsOpen] = useState(false);
@@ -129,16 +129,8 @@ export default function EthereumMirroringTable({
               >
                 Geth
               </TableHead>
-              <TableHead
-                colSpan={2}
-                className="px-4 text-pi2-accent-white font-semibold text-base whitespace-nowrap text-center"
-              >
-                KEVM Reth
-              </TableHead>
             </TableRow>
             <TableRow className="hover:bg-transparent [&_th]:border-r [&_.claim]:border-r-0">
-              <ValidationRecordsTableHeaderCell className="claim">{`Claim`}</ValidationRecordsTableHeaderCell>
-              <ValidationRecordsTableHeaderCell className="time">{`Verification Time`}</ValidationRecordsTableHeaderCell>
               <ValidationRecordsTableHeaderCell className="claim">{`Claim`}</ValidationRecordsTableHeaderCell>
               <ValidationRecordsTableHeaderCell className="time">{`Verification Time`}</ValidationRecordsTableHeaderCell>
               <ValidationRecordsTableHeaderCell className="claim">{`Claim`}</ValidationRecordsTableHeaderCell>

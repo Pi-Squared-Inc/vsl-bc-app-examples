@@ -32,57 +32,57 @@ PLease refer to the main [README](./README.md) for general information. This fil
    make start-local-dest-chain
    ```
 
-4. Deploy the PeerToken, Vsl, NttManager, and Transceiver contracts on the source and destination chains (if you want to deploy again, please stop and start fresh Anvil nodes to keep the contracts' addresses matched with the .env file):
+4. Modify the `.env` file, fill all environment variables with the example values
+
+5. Deploy the PeerToken, Vsl, NttManager, and Transceiver contracts on the source and destination chains (if you want to deploy again, please stop and start fresh Anvil nodes to keep the contracts' addresses matched with the .env file):
 
    ```bash
    make deploy
    ```
 
-5. Setup the contracts:
+6. Setup the contracts:
 
    ```bash
    make setup
    ```
 
-6. Start the backend:
+7. Start the backend:
 
    ```bash
    make start-backend
    ```
 
-7. Start the observer:
+8. Start the observer:
 
    ```bash
    make start-observer
    ```
 
-8. Start the verifier:
+9. Start the verifier:
 
    ```bash
    make start-verifier
    ```
 
-9. Start the relayer:
+10. Start the relayer:
 
-   > **Note:** The relayer image was hosted on Pi Squared's GitHub Container Registry, you will need to login your Docker environment to the GitHub Container Registry first. Please refer to [Authenticating to the Container registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-the-container-registry) for more details.
-
-   ```bash
-   make start-relayer-dev
-   ```
+    ```bash
+    make start-relayer
+    ```
 
 11. Mint token on source chain and check the balance:
 
-   ```bash
-   make mint-source-token # Mint token and set the minter to the manager
-   make check-source-balance # Check the balance
-   ```
+    ```bash
+    make mint-source-token # Mint token and set the minter to the manager
+    make check-source-balance # Check the balance
+    ```
 
 12. Transfer the token between source chain and dest chain:
 
-   ```bash
-   make transfer # Transfer the token between source chain and dest chain
-   make check-source-balance # Check the balance on source chain
-   ```
+    ```bash
+    make transfer # Transfer the token between source chain and dest chain
+    make check-source-balance # Check the balance on source chain
+    ```
 
 13. First, the observer will generate a claim and submit it to POD. Then, the relayer will monitor POD for new claim and automatically delivers to the destination chain. You can check the logs from the observer and relayer to see the process.
 
