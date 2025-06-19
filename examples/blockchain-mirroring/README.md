@@ -16,12 +16,12 @@ It includes the following components:
 - [backend](./backend/README.md): Store the verification records of different verification clients.
 
 - **Bitcoin**
-
   - [btc-mirroring](./btc-mirroring/): Service that mirrors the Bitcoin chain, generates block processing records, and then verifies the corresponding block verification claims.
 
 - **Ethereum**
   - [mirroring-geth](./mirroring-geth/): Service that mirrors the Geth fullnode, generates block processing records, and then verifies the corresponding block verification claims.
   - [mirroring-reth](./mirroring-reth/): Service that mirrors the Reth fullnode, generates block processing records, and then verifies the corresponding block verification claims.
+  - [mirroring-reth-kevm](./mirroring-reth-kevm/): Service that mirrors the Reth fullnode, generates block processing records, and then verifies the corresponding block verification claims.
 
 ## Prerequisites
 
@@ -29,7 +29,6 @@ It includes the following components:
 - Reth node: The Reth node must support the `debug_executionWitnessByBlockHash` API. Please check [instructions for starting a Reth node with this API](../../generation/block-processing/evm/rs/README.md) for how to start a Reth node with this API.
 - [Docker](https://docs.docker.com/engine/install/)
 - [Foundry](https://getfoundry.sh/)
-- VSL: run a local VSL node or connect to a remote one. You can find more details about running VSL in the [`VSL-CLI`](https://github.com/Pi-Squared-Inc/vsl-cli) and [`VSL-SDK`](https://github.com/Pi-Squared-Inc/vsl-sdk) repos. For usign the devnet endpoints, just use values suggested in `sample.env` files.
 
 ## Quick Start
 
@@ -39,7 +38,9 @@ It includes the following components:
    make prepare-env
    ```
 
-2. Use the following command to generate new wallet addresses for the submitter and verifier to use.
+2. Update the `GITHUB_ACTOR` and `GITHUB_TOKEN` environment variables in the `./.env` file. They are used to access private repositories during the build phase, please ensure that the token has [read access](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token) to the repositories.
+
+3. Use the following command to generate new wallet addresses for the submitter and verifier to use.
    Please generate different submitter and verifier addresses for the following demos.
 
    ```sh
@@ -60,7 +61,7 @@ It includes the following components:
     ====================================================
    ```
 
-3. Fill in the environment variables required for [btc-mirroring](./btc-mirroring/).
+4. Fill in the environment variables required for [btc-mirroring](./btc-mirroring/).
 
    - For submitter([./btc-mirroring/claim-submitter/.env](./btc-mirroring/claim-submitter/.env)):
 
@@ -79,7 +80,7 @@ It includes the following components:
       VERIFIER_PRIVATE_KEY=<Verifier Private Key>
      ```
 
-4. Fill in the environment variables required for [mirroring-geth](./mirroring-geth/).
+5. Fill in the environment variables required for [mirroring-geth](./mirroring-geth/).
 
    - For submitter([./mirroring-geth/claim-submitter/.env](./mirroring-geth/claim-submitter/.env)):
 
@@ -101,7 +102,7 @@ It includes the following components:
       VSL_VERIFIER_PRIVATE_KEY=<Verifier Private Key>
      ```
 
-5. Fill in the environment variables required for [mirroring-reth](./mirroring-reth/).
+6. Fill in the environment variables required for [mirroring-reth](./mirroring-reth/).
 
    - For submitter([./mirroring-reth/claim-submitter/.env](./mirroring-reth/claim-submitter/.env)):
 
@@ -123,17 +124,39 @@ It includes the following components:
       SUBMITTER_ADDRESS=<Submitter Address>
      ```
 
-6. Before starting all services, please ensure that the above-mentioned addresses have sufficient balances.
+7. Fill in the environment variables required for [mirroring-reth-kevm](./mirroring-reth-kevm/).
 
-7. Fill in the environment variables required for the [./frontend/.env](./frontend/.env).
+   - For submitter([./mirroring-reth-kevm/claim-submitter/.env](./mirroring-reth-kevm/claim-submitter/.env)):
+
+     ```env
+      SOURCE_RPC_ENDPOINT=<Reth Fullnode RPC URL>
+      SOURCE_WEBSOCKET_ENDPOINT=<Reth Fullnode WS URL>
+      VSL_URL=<VSL RPC URL>
+      SUBMITTER_PRIVATE_KEY=<Submitter Private Key>
+      VERIFIER_ADDRESS=<Verifier Address>
+     ```
+
+   - For verifier([./mirroring-reth-kevm/claim-verifier/.env](./mirroring-reth-kevm/claim-verifier/.env)):
+
+     ```env
+      SOURCE_RPC_ENDPOINT=<Reth Fullnode RPC URL>
+      SOURCE_WEBSOCKET_ENDPOINT=<Reth Fullnode WS URL>
+      VSL_URL=<VSL RPC URL>
+      VERIFIER_PRIVATE_KEY=<Verifier Private Key>
+      SUBMITTER_ADDRESS=<Submitter Address>
+     ```
+
+8. Before starting all services, please ensure that the above-mentioned addresses have sufficient balances.
+
+9. Fill in the environment variables required for the [./frontend/.env](./frontend/.env).
 
    ```env
     NEXT_PUBLIC_API_URL=<Backend API URL> # for example: http://<your-ip>:3001
     NEXT_PUBLIC_EXPLORER_URL=<VSL Explorer URL>
    ```
 
-8. Start all services.
+10. Start all services.
 
-   ```sh
-    make start
-   ```
+    ```sh
+     make start
+    ```

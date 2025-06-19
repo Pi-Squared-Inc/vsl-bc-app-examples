@@ -24,7 +24,6 @@ It includes the following components:
 
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/install/) Version >= 2.19.0
-- VSL: run a local VSL node or connect to a remote one. You can find more details about running VSL in the [`VSL-CLI`](https://github.com/Pi-Squared-Inc/vsl-cli) and [`VSL-SDK`](https://github.com/Pi-Squared-Inc/vsl-sdk) repos. For usign the devnet endpoints, just use values suggested in `sample.env` files. If you would like to run the demo with a local VSL deployment, change endpoints in `.env` files used in the demo.
 
 ### Initialization
 
@@ -49,3 +48,7 @@ make start-demo
 ```bash
 make stop-demo
 ```
+
+### VSL Deployment
+
+The demo uses the devnet RPC VSL endpoints. If you would like to run the demo with a local VSL deployment, change endpoints in `.env` files used in the demo. You can find more details about running VSL in the [`VSL-CLI`](https://github.com/Pi-Squared-Inc/vsl-cli) and [`VSL-SDK`](https://github.com/Pi-Squared-Inc/vsl-sdk) repos. 
