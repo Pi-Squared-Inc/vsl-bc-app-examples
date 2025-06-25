@@ -1,8 +1,15 @@
+# Load environment variables from .env file
+-include .env
+ifneq ("$(wildcard .env)","")
+export $(shell sed 's/=.*//' .env)
+endif
+
 CONTEXT_DIR := $(shell pwd)
 
 .PHONY: prepare-env
 prepare-env:
 	@echo "Prepare environment" && \
+	cp sample.env .env && \
 	cd ${CONTEXT_DIR}/backend && \
 	cp sample.env .env && \
 	cd ${CONTEXT_DIR}/frontend && \
@@ -18,6 +25,10 @@ prepare-env:
 	cd ${CONTEXT_DIR}/btc-mirroring/claim-submitter && \
 	cp sample.env .env && \
 	cd ${CONTEXT_DIR}/btc-mirroring/claim-verifier && \
+	cp sample.env .env && \
+	cd ${CONTEXT_DIR}/mirroring-reth-kevm/claim-submitter && \
+	cp sample.env .env && \
+	cd ${CONTEXT_DIR}/mirroring-reth-kevm/claim-verifier && \
 	cp sample.env .env && \
 	echo "Environment prepared successfully"
 
@@ -60,6 +71,10 @@ start-mirroring-reth:
 start-mirroring-bitcoin:
 	docker compose up -d --build btc-claim-verifier btc-claim-submitter
 
+.PHONY: start-mirroring-reth-kevm
+start-mirroring-reth-kevm:
+	docker compose up -d --build reth-kevm-claim-submitter reth-kevm-claim-verifier
+
 .PHONY: start-frontend-dev
 start-frontend-dev:
 	@cd ${CONTEXT_DIR}/frontend && \
@@ -76,6 +91,16 @@ integration-test:
 		echo "Integration tests completed successfully" && \
 		echo "Cleaning up..." && \
 		docker compose down && \
+		echo "Cleanup completed" && \
+		echo "All tasks completed successfully"
+
+.PHONY: integration-test-kevm
+integration-test-kevm:
+	@cd $(CONTEXT_DIR)/tests && \
+		docker compose -f docker-compose.kevm.yml up --build --exit-code-from tester && \
+		echo "Integration tests completed successfully" && \
+		echo "Cleaning up..." && \
+		docker compose -f docker-compose.kevm.yml down && \
 		echo "Cleanup completed" && \
 		echo "All tasks completed successfully"
 

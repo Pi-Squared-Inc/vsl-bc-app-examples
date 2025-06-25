@@ -1,0 +1,11 @@
+FROM ubuntu:latest
+
+RUN apt-get update && apt-get install -y jq curl git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /opt/tester
+COPY ./integration-test.sh .
+COPY ./check-test-result-reth-kevm.sh .
+
+CMD [ "./integration-test.sh" ]

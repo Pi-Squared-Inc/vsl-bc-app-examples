@@ -26,6 +26,8 @@ export default function EthereumMirroringRecordRow({ claim, onViewError }: Ether
       <ClientValidationCell details={claim.claim_details} executionClient={"MirroringReth"} onViewError={onViewError} />
       <ClientClaimCell className="claim" details={claim.claim_details} executionClient={"MirroringGeth"} />
       <ClientValidationCell details={claim.claim_details} executionClient={"MirroringGeth"} onViewError={onViewError} />
+      <ClientClaimCell className="claim" details={claim.claim_details} executionClient={"MirroringRethKEVM"} />
+      <ClientValidationCell details={claim.claim_details} executionClient={"MirroringRethKEVM"} onViewError={onViewError} />
     </TableRow>
   );
 }

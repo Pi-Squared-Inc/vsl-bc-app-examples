@@ -133,8 +133,8 @@ services:
     depends_on:
       - backend
       - mock-rpc
-      - mirroring-geth-claim-submitter
-      - mirroring-geth-claim-verifier
+      # - mirroring-geth-claim-submitter
+      # - mirroring-geth-claim-verifier
       - mirroring-reth-claim-verifier
       - mirroring-reth-claim-submitter
       - mirroring-btc-claim-verifier
