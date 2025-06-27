@@ -5,14 +5,12 @@ prepare-backend:
 	@echo "Preparing backend environment..."
 	cd ${CONTEXT_DIR}/backend && \
 	cp sample.env .env  && \
-	go mod download 
 
 .PHONY: prepare-frontend
 prepare-frontend:
 	@echo "Preparing frontend environment..."
 	cd ${CONTEXT_DIR}/frontend && \
 	cp sample.env .env && \
-	bun install && \
 	echo "Frontend environment prepared successfully"
 
 .PHONY: start-demo

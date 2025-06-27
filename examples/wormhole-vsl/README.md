@@ -44,7 +44,13 @@ In order to run the wormhole demo, it is first necessary to deploy the correspon
 
 3. Go to [Etherscan](https://etherscan.io/myapikey) to create API key for Ethereum Sepolia chain, and go to [Arbiscan](https://arbiscan.io/myapikey) to create API key for Arbitrum Sepolia chain.
 
-4. Run a local VSL node or connect to a remote one. For local deployment you can find instructions in the [`VSL-CLI`](https://github.com/Pi-Squared-Inc/vsl-cli) and [`VSL-SDK`](https://github.com/Pi-Squared-Inc/vsl-sdk) repos.
+4. Run a local VSL node or connect to a remote one. For local deployment you can find instructions in the [`VSL-CLI`](https://github.com/Pi-Squared-Inc/vsl-cli) and [`VSL-SDK`](https://github.com/Pi-Squared-Inc/vsl-sdk) repos. We need to provide these following environment variables that related to VSL:
+   - VSL node RPC endpoint: `VSL_RPC`
+   - Two VSL accounts with some funds for observer and verifier:
+     - VSL observer account address: `VSL_CLIENT_ADDRESS`
+     - VSL observer account private key: `VSL_CLIENT_PRIVATE_KEY`
+     - VSL verifier account address: `VSL_VERIFIER_ADDRESS`
+     - VSL verifier account private key: `VSL_VERIFIER_PRIVATE_KEY`
 
 ### Initialization
 

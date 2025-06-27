@@ -10,6 +10,16 @@ PLease refer to the main [README](./README.md) for general information. This fil
 - [pnpm](https://pnpm.io/installation): Used for the UI
 - [jq](https://jqlang.github.io/jq/download/)
 
+## Preparation
+
+1. Run a local VSL node or connect to a remote one. For local deployment you can find instructions in the [`VSL-CLI`](https://github.com/Pi-Squared-Inc/vsl-cli) and [`VSL-SDK`](https://github.com/Pi-Squared-Inc/vsl-sdk) repos. We need to provide these following environment variables that related to VSL:
+   - VSL node RPC endpoint: `VSL_RPC`
+   - Two VSL accounts with some funds for observer and verifier:
+     - VSL observer account address: `VSL_CLIENT_ADDRESS`
+     - VSL observer account private key: `VSL_CLIENT_PRIVATE_KEY`
+     - VSL verifier account address: `VSL_VERIFIER_ADDRESS`
+     - VSL verifier account private key: `VSL_VERIFIER_PRIVATE_KEY`
+
 ## Getting started
 
 1. Prepare depends and environments:
@@ -84,7 +94,7 @@ PLease refer to the main [README](./README.md) for general information. This fil
     make check-source-balance # Check the balance on source chain
     ```
 
-13. First, the observer will generate a claim and submit it to POD. Then, the relayer will monitor POD for new claim and automatically delivers to the destination chain. You can check the logs from the observer and relayer to see the process.
+13. First, the observer will generate a claim and submit it to VSL. Then, the relayer will monitor VSL for new claim and automatically delivers to the destination chain. You can check the logs from the observer and relayer to see the process.
 
 14. Once the relayer has successfully delivered the claim to the destination chain, verify the destination chain balance:
 
